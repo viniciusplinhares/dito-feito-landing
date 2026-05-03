@@ -31,24 +31,31 @@ export default function Landing() {
         const vitrineRect = vitrine.getBoundingClientRect();
         const vh = window.innerHeight;
 
-        // progress 0..1 from start of hero scroll-out to vitrine center reaching mid
-        const total = heroRect.height + vh * 0.4;
-        const scrolled = Math.min(Math.max(-heroRect.top, 0), total);
-        const p = scrolled / total;
+        // Crest starts centered in hero (~42vh from top), needs to land at vitrine center
+        const startTop = vh * 0.42;
+        const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
+        // Distance to travel: from current fixed position to vitrine center
+        const targetY = vitrineCenter - startTop;
 
-        if (vitrineRect.top > vh * 0.2) {
-          // moving down with scroll
-          const translateY = p * (vh * 0.55);
-          const scale = 1 - p * 0.55;
+        // Progress: 0 when hero fully visible, 1 when vitrine center reaches viewport center
+        const total = heroRect.height + vitrineRect.height / 2 - vh / 2;
+        const scrolled = Math.min(Math.max(window.scrollY, 0), total);
+        const p = total > 0 ? scrolled / total : 0;
+
+        // Once vitrine center has passed viewport center, lock crest there (scrolls with page)
+        if (vitrineCenter <= vh / 2) {
+          // crest should now sit pinned at vitrine center -> use absolute-like translate
+          const lockedY = vitrineCenter - startTop;
           setCrestStyle({
-            transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
+            transform: `translate3d(-50%, ${lockedY}px, 0) scale(0.5)`,
             opacity: 1,
           });
         } else {
-          // hide once vitrine takes over (vitrine has its own crest slot)
+          const translateY = p * targetY;
+          const scale = 1 - p * 0.5;
           setCrestStyle({
-            transform: `translate3d(-50%, ${vh * 0.55}px, 0) scale(0.45)`,
-            opacity: 0,
+            transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
+            opacity: 1,
           });
         }
       }
