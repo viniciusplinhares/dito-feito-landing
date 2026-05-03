@@ -165,40 +165,25 @@ export default function Landing() {
       <section
         id="vitrine"
         ref={vitrineRef}
-        className="relative min-h-screen overflow-hidden py-32 px-6 md:px-12 text-primary-foreground"
+        className="relative min-h-screen overflow-hidden bg-white py-32 px-6 md:px-12 text-primary-deep"
       >
-        {/* Split background */}
-        <div aria-hidden className="absolute inset-0 grid grid-cols-2">
-          <div className="bg-vitrine-purple" />
-          <div className="bg-vitrine-blue" />
-        </div>
-        {/* Center divider line */}
-        <div
-          aria-hidden
-          className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
-          style={{ background: "linear-gradient(to bottom, transparent, oklch(0.78 0.14 85 / 0.5), transparent)" }}
-        />
-
-        <div className="relative mx-auto max-w-7xl text-center">
+        <div className="relative mx-auto max-w-6xl text-center">
           <span className="reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold">
             Edição 2026
           </span>
-          <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-foreground">
+          <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep">
             Uniforme Dito e Feito
           </h2>
-          <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-foreground/70">
+          <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-deep/60">
             Alta costura esportiva
           </p>
 
-          {/* Spacer for scroll-pinned crest */}
-          <div className="h-32 md:h-40" aria-hidden />
-
-          <div className="relative mt-16 grid grid-cols-2 gap-4 items-end">
-            <div className="reveal group relative">
+          <div className="relative mt-20 flex items-center justify-center gap-6 md:gap-12">
+            <div className="reveal group relative flex-1 max-w-xs">
               <div
                 aria-hidden
                 className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.7 0.22 305 / 0.35)" }}
+                style={{ background: "oklch(0.7 0.22 305 / 0.25)" }}
               />
               <img
                 src={jerseyPurple}
@@ -206,17 +191,20 @@ export default function Landing() {
                 width={1024}
                 height={1024}
                 loading="lazy"
-                className="mx-auto w-full max-w-md animate-float drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
+                className="mx-auto w-full animate-float drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <p className="mt-4 font-display text-2xl text-primary-foreground tracking-wide">Goleiro · Roxo</p>
-              <p className="text-sm text-primary-foreground/70 uppercase tracking-[0.3em]">Manto #1</p>
+              <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Goleiro · Roxo</p>
+              <p className="text-sm text-primary-deep/60 uppercase tracking-[0.3em]">Manto #1</p>
             </div>
 
-            <div className="reveal group relative md:mt-12">
+            {/* Center spacer to host the scroll-pinned crest */}
+            <div className="w-[20%] min-w-[120px] max-w-[260px] shrink-0" aria-hidden />
+
+            <div className="reveal group relative flex-1 max-w-xs">
               <div
                 aria-hidden
                 className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.55 0.2 264 / 0.4)" }}
+                style={{ background: "oklch(0.55 0.2 264 / 0.25)" }}
               />
               <img
                 src={jerseyBlue}
@@ -224,14 +212,14 @@ export default function Landing() {
                 width={1024}
                 height={1024}
                 loading="lazy"
-                className="mx-auto w-full max-w-md animate-float-rev drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
+                className="mx-auto w-full animate-float-rev drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <p className="mt-4 font-display text-2xl text-primary-foreground tracking-wide">Linha · Azul</p>
-              <p className="text-sm text-primary-foreground/70 uppercase tracking-[0.3em]">Manto #10</p>
+              <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Linha · Azul</p>
+              <p className="text-sm text-primary-deep/60 uppercase tracking-[0.3em]">Manto #10</p>
             </div>
           </div>
 
-          <p className="reveal mx-auto mt-20 max-w-2xl text-base md:text-lg text-primary-foreground/80 leading-relaxed">
+          <p className="reveal mx-auto mt-20 max-w-2xl text-base md:text-lg text-primary-deep/75 leading-relaxed">
             Dois novos mantos com pegada <span className="text-gold font-semibold">retrô e vintage</span>,
             inspirados na estética dos <span className="text-gold font-semibold">anos 80 e 90</span>: tecido
             jacquard com grafismos sutis, gola V em ribana dourada e o escudo bordado em fio metálico. O roxo
