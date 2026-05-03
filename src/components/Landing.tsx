@@ -185,7 +185,7 @@ export default function Landing() {
           </div>
 
           {/* Bloco 2: Camisas + Escudo */}
-          <div className="mt-20 flex w-full items-center justify-center gap-12 md:gap-24">
+          <div ref={jerseysRowRef} className="mt-20 flex w-full items-center justify-center gap-12 md:gap-24">
             <div className="reveal group relative flex flex-col items-center">
               <div className="relative h-64 md:h-80 w-auto">
                 <div
