@@ -242,7 +242,7 @@ export default function Landing() {
       <section
         id="historia"
         ref={trophyRef}
-        className="relative bg-gradient-blue text-primary-foreground overflow-hidden py-32 px-6 md:px-12"
+        className="relative bg-gradient-night text-primary-foreground overflow-hidden py-32 px-6 md:px-12"
       >
         {/* Trophy fade-in on scroll */}
         <img
