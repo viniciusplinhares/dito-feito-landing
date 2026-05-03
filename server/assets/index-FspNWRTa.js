@@ -1,4 +1,4 @@
-import { r as reactExports, T as jsxRuntimeExports } from "./worker-entry-B2MMvqUt.js";
+import { r as reactExports, T as jsxRuntimeExports } from "./worker-entry-Chop9R11.js";
 import "node:events";
 import "node:async_hooks";
 import "node:stream/web";
@@ -81,13 +81,13 @@ const createLucideIcon = (iconName, iconNode) => {
 };
 const __iconNode = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
 const ChevronDown = createLucideIcon("chevron-down", __iconNode);
-const crest = "/assets/crest-main-A_Veb9ZH.png";
-const jerseyPurple = "/assets/jersey-purple-DQeREgBa.png";
-const jerseyBlue = "/assets/jersey-blue-lF3MPsL9.png";
-const trophy = "/assets/trophy-C7GlT6wK.png";
-const rivalCrest = "/assets/crest-rival-BfYccAfd.png";
-const celebration = "/assets/celebration-C8Kz32Y2.jpg";
-const heroBg = "/assets/hero-bg-BhtLbLYT.png";
+const crest = "/dito-feito-landing/assets/crest-main-A_Veb9ZH.png";
+const jerseyPurple = "/dito-feito-landing/assets/jersey-purple-DQeREgBa.png";
+const jerseyBlue = "/dito-feito-landing/assets/jersey-blue-lF3MPsL9.png";
+const trophy = "/dito-feito-landing/assets/trophy-C7GlT6wK.png";
+const rivalCrest = "/dito-feito-landing/assets/crest-rival-BfYccAfd.png";
+const celebration = "/dito-feito-landing/assets/celebration-C8Kz32Y2.jpg";
+const heroBg = "/dito-feito-landing/assets/hero-bg-BhtLbLYT.png";
 function useReveal() {
   reactExports.useEffect(() => {
     const els = document.querySelectorAll(".reveal");
