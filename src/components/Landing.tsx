@@ -41,12 +41,9 @@ export default function Landing() {
         const totalDistance = jerseysDocTop + jerseysRect.height / 2 - vh / 2;
         const p = Math.min(Math.max(window.scrollY / Math.max(totalDistance, 1), 0), 1);
 
-        // CLAMP: once p reaches 1, freeze translateY at the locked position
-        // (computed at the moment alignment is achieved, not live-tracking the scroll)
-        const lockedTargetY = (jerseysDocTop + jerseysRect.height / 2) - (window.scrollY >= totalDistance ? window.scrollY : 0) - startTop + (window.scrollY >= totalDistance ? window.scrollY : 0);
-        // Simpler: when p<1 interpolate; when p===1 use the absolute locked Y in document space → translateY = lockedDocY - scrollY - startTop
-        const lockedDocY = jerseysDocTop + jerseysRect.height / 2; // doc-space Y of anchor
-        const translateY = p < 1 ? targetY * p : (lockedDocY - window.scrollY - startTop);
+        // CLAMP: while interpolating, ease from 0→targetY. Once aligned (p=1),
+        // stay glued to the jerseys row center (targetY tracks it live via getBoundingClientRect).
+        const translateY = p < 1 ? targetY * p : targetY;
 
         const startScale = 0.7;
         const endScale = 1;
