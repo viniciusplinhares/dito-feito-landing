@@ -15,6 +15,7 @@ export default function Landing() {
   // Scroll-driven crest transform (Hero -> Vitrine)
   const heroRef = useRef<HTMLDivElement>(null);
   const vitrineRef = useRef<HTMLDivElement>(null);
+  const jerseysRowRef = useRef<HTMLDivElement>(null);
   const trophyRef = useRef<HTMLDivElement>(null);
   const rivalRef = useRef<HTMLDivElement>(null);
 
@@ -25,25 +26,30 @@ export default function Landing() {
   useEffect(() => {
     const onScroll = () => {
       const hero = heroRef.current;
-      const vitrine = vitrineRef.current;
-      if (hero && vitrine) {
-        const heroRect = hero.getBoundingClientRect();
-        const vitrineRect = vitrine.getBoundingClientRect();
+      const jerseysRow = jerseysRowRef.current;
+      if (hero && jerseysRow) {
+        const jerseysRect = jerseysRow.getBoundingClientRect();
         const vh = window.innerHeight;
 
         const startTop = vh * 0.42;
-        // Target Y: crest sits exactly at the vitrine vertical center on screen
-        const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
-        const targetY = vitrineCenter - startTop;
+        // Anchor: vertical center of the jerseys row (between the two shirts)
+        const anchorCenter = jerseysRect.top + jerseysRect.height / 2;
+        const targetY = anchorCenter - startTop;
 
-        // Progress: 0 at page top, 1 when vitrine is centered in viewport
-        const totalDistance = hero.offsetHeight + vitrine.offsetHeight / 2 - vh / 2;
+        // Progress: reach max (p=1) exactly when jerseys row is centered in viewport
+        const jerseysDocTop = anchorCenter + window.scrollY - jerseysRect.height / 2;
+        const totalDistance = jerseysDocTop + jerseysRect.height / 2 - vh / 2;
         const p = Math.min(Math.max(window.scrollY / Math.max(totalDistance, 1), 0), 1);
 
-        // Interpolate position and scale gradually across the whole scroll
-        const translateY = targetY * p;
+        // CLAMP: once p reaches 1, freeze translateY at the locked position
+        // (computed at the moment alignment is achieved, not live-tracking the scroll)
+        const lockedTargetY = (jerseysDocTop + jerseysRect.height / 2) - (window.scrollY >= totalDistance ? window.scrollY : 0) - startTop + (window.scrollY >= totalDistance ? window.scrollY : 0);
+        // Simpler: when p<1 interpolate; when p===1 use the absolute locked Y in document space → translateY = lockedDocY - scrollY - startTop
+        const lockedDocY = jerseysDocTop + jerseysRect.height / 2; // doc-space Y of anchor
+        const translateY = p < 1 ? targetY * p : (lockedDocY - window.scrollY - startTop);
+
         const startScale = 0.7;
-        const endScale = 1; // capped — matches jersey height, no gigantism
+        const endScale = 1;
         const scale = startScale + (endScale - startScale) * p;
 
         setCrestStyle({
