@@ -31,17 +31,21 @@ export default function Landing() {
         const vitrineRect = vitrine.getBoundingClientRect();
         const vh = window.innerHeight;
 
-        // Fixed crest container sits at top:42vh. Target = vitrine vertical center on screen.
         const startTop = vh * 0.42;
+        // Target Y when crest should be at vitrine center on screen
         const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
-        const targetY = vitrineCenter - startTop;
+        const lockedY = vitrineCenter - startTop;
 
-        // Progress 0..1 across the hero scroll-out window
+        // Progress across hero scroll-out
         const p = Math.min(Math.max(window.scrollY / heroRect.height, 0), 1);
+
+        // Move along the hero scroll, then snap to vitrine center once hero is out
+        const heroTravel = vh * 0.45 * p;
+        const translateY = p < 1 ? heroTravel : lockedY;
         const scale = 1 - p * 0.55;
 
         setCrestStyle({
-          transform: `translate3d(-50%, ${targetY}px, 0) scale(${scale})`,
+          transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
           opacity: 1,
         });
       }
