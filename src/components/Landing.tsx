@@ -42,8 +42,8 @@ export default function Landing() {
 
         // Interpolate position and scale gradually across the whole scroll
         const translateY = targetY * p;
-        const startScale = 1;
-        const endScale = 1.6; // grows to match jersey size between them
+        const startScale = 0.7;
+        const endScale = 1; // capped — matches jersey height, no gigantism
         const scale = startScale + (endScale - startScale) * p;
 
         setCrestStyle({
@@ -82,10 +82,10 @@ export default function Landing() {
       {/* Floating crest tied to scroll (between Hero and Vitrine) */}
       <div
         aria-hidden
-        className="pointer-events-none fixed left-1/2 top-[42vh] z-40 w-[min(60vw,420px)] -translate-x-1/2 will-change-transform animate-pulse-gold"
+        className="pointer-events-none fixed left-1/2 top-[42vh] z-40 h-[min(40vw,260px)] w-[min(40vw,260px)] -translate-x-1/2 will-change-transform animate-pulse-gold"
         style={crestStyle}
       >
-        <img src={crest} alt="" className="w-full h-auto select-none" draggable={false} />
+        <img src={crest} alt="" className="h-full w-full object-contain select-none" draggable={false} />
       </div>
 
       {/* ============== HERO ============== */}
@@ -167,58 +167,67 @@ export default function Landing() {
         ref={vitrineRef}
         className="relative min-h-screen overflow-hidden bg-white py-32 px-6 md:px-12 text-primary-deep"
       >
-        <div className="relative mx-auto max-w-6xl text-center">
-          <span className="reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold">
-            Edição 2026
-          </span>
-          <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep">
-            Uniforme Dito e Feito
-          </h2>
-          <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-deep/60">
-            Alta costura esportiva
-          </p>
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center text-center">
+          {/* Bloco 1: Títulos */}
+          <div className="w-full">
+            <span className="reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold">
+              Edição 2026
+            </span>
+            <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep">
+              Uniforme Dito e Feito
+            </h2>
+            <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-deep/60">
+              Alta costura esportiva
+            </p>
+          </div>
 
-          <div className="relative mt-20 flex items-center justify-center gap-6 md:gap-12">
-            <div className="reveal group relative flex-1 max-w-xs">
-              <div
-                aria-hidden
-                className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.7 0.22 305 / 0.25)" }}
-              />
-              <img
-                src={jerseyPurple}
-                alt="Camisa de goleiro roxa Edição 2026"
-                width={1024}
-                height={1024}
-                loading="lazy"
-                className="mx-auto w-full animate-float drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
-              />
+          {/* Bloco 2: Camisas + Escudo */}
+          <div className="mt-20 flex w-full items-center justify-center gap-12 md:gap-24">
+            <div className="reveal group relative flex flex-col items-center">
+              <div className="relative h-64 md:h-80 w-auto">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -z-10 mx-auto h-full w-full rounded-full blur-3xl"
+                  style={{ background: "oklch(0.7 0.22 305 / 0.25)" }}
+                />
+                <img
+                  src={jerseyPurple}
+                  alt="Camisa de goleiro roxa Edição 2026"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="h-full w-auto object-contain animate-float drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </div>
               <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Goleiro · Roxo</p>
               <p className="text-sm text-primary-deep/60 uppercase tracking-[0.3em]">Manto #1</p>
             </div>
 
-            {/* Center spacer to host the scroll-pinned crest */}
-            <div className="w-[20%] min-w-[120px] max-w-[260px] shrink-0" aria-hidden />
+            {/* Spacer reservado para o escudo fixo */}
+            <div className="h-64 md:h-80 w-32 md:w-48 shrink-0" aria-hidden />
 
-            <div className="reveal group relative flex-1 max-w-xs">
-              <div
-                aria-hidden
-                className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.55 0.2 264 / 0.25)" }}
-              />
-              <img
-                src={jerseyBlue}
-                alt="Camisa de linha azul Edição 2026"
-                width={1024}
-                height={1024}
-                loading="lazy"
-                className="mx-auto w-full animate-float-rev drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
-              />
+            <div className="reveal group relative flex flex-col items-center">
+              <div className="relative h-64 md:h-80 w-auto">
+                <div
+                  aria-hidden
+                  className="absolute inset-0 -z-10 mx-auto h-full w-full rounded-full blur-3xl"
+                  style={{ background: "oklch(0.55 0.2 264 / 0.25)" }}
+                />
+                <img
+                  src={jerseyBlue}
+                  alt="Camisa de linha azul Edição 2026"
+                  width={1024}
+                  height={1024}
+                  loading="lazy"
+                  className="h-full w-auto object-contain animate-float-rev drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </div>
               <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Linha · Azul</p>
               <p className="text-sm text-primary-deep/60 uppercase tracking-[0.3em]">Manto #10</p>
             </div>
           </div>
 
+          {/* Bloco 3: Texto explicativo, isolado abaixo */}
           <p className="reveal mx-auto mt-20 max-w-2xl text-base md:text-lg text-primary-deep/75 leading-relaxed">
             Dois novos mantos com pegada <span className="text-gold font-semibold">retrô e vintage</span>,
             inspirados na estética dos <span className="text-gold font-semibold">anos 80 e 90</span>: tecido
