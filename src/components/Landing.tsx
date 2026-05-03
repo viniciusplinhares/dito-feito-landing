@@ -6,6 +6,7 @@ import jerseyBlue from "@/assets/jersey-blue.png";
 import trophy from "@/assets/trophy.png";
 import rivalCrest from "@/assets/crest-rival.png";
 import celebration from "@/assets/celebration.jpg";
+import heroBg from "@/assets/hero-bg.png";
 import { useReveal } from "@/hooks/use-reveal";
 
 export default function Landing() {
