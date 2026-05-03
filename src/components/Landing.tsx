@@ -82,7 +82,7 @@ export default function Landing() {
       {/* Floating crest tied to scroll (between Hero and Vitrine) */}
       <div
         aria-hidden
-        className="pointer-events-none fixed left-1/2 top-[42vh] z-40 w-[min(60vw,420px)] -translate-x-1/2 will-change-transform animate-pulse-gold"
+        className="pointer-events-none fixed left-1/2 top-[42vh] z-40 h-[min(40vw,260px)] w-[min(40vw,260px)] -translate-x-1/2 will-change-transform animate-pulse-gold"
         style={crestStyle}
       >
         <img src={crest} alt="" className="w-full h-auto select-none" draggable={false} />
