@@ -6,6 +6,7 @@ import jerseyBlue from "@/assets/jersey-blue.png";
 import trophy from "@/assets/trophy.png";
 import rivalCrest from "@/assets/crest-rival.png";
 import celebration from "@/assets/celebration.jpg";
+import heroBg from "@/assets/hero-bg.png";
 import { useReveal } from "@/hooks/use-reveal";
 
 export default function Landing() {
@@ -30,26 +31,23 @@ export default function Landing() {
         const vitrineRect = vitrine.getBoundingClientRect();
         const vh = window.innerHeight;
 
-        // progress 0..1 from start of hero scroll-out to vitrine center reaching mid
-        const total = heroRect.height + vh * 0.4;
-        const scrolled = Math.min(Math.max(-heroRect.top, 0), total);
-        const p = scrolled / total;
+        const startTop = vh * 0.42;
+        // Target Y when crest should be at vitrine center on screen
+        const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
+        const lockedY = vitrineCenter - startTop;
 
-        if (vitrineRect.top > vh * 0.2) {
-          // moving down with scroll
-          const translateY = p * (vh * 0.55);
-          const scale = 1 - p * 0.55;
-          setCrestStyle({
-            transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
-            opacity: 1,
-          });
-        } else {
-          // hide once vitrine takes over (vitrine has its own crest slot)
-          setCrestStyle({
-            transform: `translate3d(-50%, ${vh * 0.55}px, 0) scale(0.45)`,
-            opacity: 0,
-          });
-        }
+        // Progress across hero scroll-out
+        const p = Math.min(Math.max(window.scrollY / heroRect.height, 0), 1);
+
+        // Move along the hero scroll, then snap to vitrine center once hero is out
+        const heroTravel = vh * 0.45 * p;
+        const translateY = p < 1 ? heroTravel : lockedY;
+        const scale = 1 - p * 0.55;
+
+        setCrestStyle({
+          transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
+          opacity: 1,
+        });
       }
 
       const t = trophyRef.current;
@@ -91,12 +89,27 @@ export default function Landing() {
       {/* ============== HERO ============== */}
       <section
         ref={heroRef}
-        className="relative min-h-screen w-full overflow-hidden bg-gradient-hero text-primary-foreground"
+        className="relative min-h-screen w-full overflow-hidden text-primary-foreground"
       >
-        {/* Texture */}
+        {/* Background photo */}
         <div
           aria-hidden
-          className="absolute inset-0 opacity-[0.07]"
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        {/* Dark overlay for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, oklch(0.1 0.06 265 / 0.78) 0%, oklch(0.05 0.03 265 / 0.92) 70%, oklch(0.03 0.02 265 / 0.96) 100%)",
+          }}
+        />
+        {/* Subtle dot texture */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage:
               "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
@@ -105,7 +118,7 @@ export default function Landing() {
         />
         <div
           aria-hidden
-          className="absolute -top-1/3 right-0 h-[120vh] w-[120vh] rounded-full opacity-30 blur-3xl"
+          className="absolute -top-1/3 right-0 h-[120vh] w-[120vh] rounded-full opacity-20 blur-3xl"
           style={{ background: "var(--gradient-gold)" }}
         />
 
@@ -150,30 +163,40 @@ export default function Landing() {
       <section
         id="vitrine"
         ref={vitrineRef}
-        className="relative min-h-screen bg-background py-32 px-6 md:px-12"
+        className="relative min-h-screen overflow-hidden py-32 px-6 md:px-12 text-primary-foreground"
       >
-        <div className="mx-auto max-w-7xl text-center">
+        {/* Split background */}
+        <div aria-hidden className="absolute inset-0 grid grid-cols-2">
+          <div className="bg-vitrine-purple" />
+          <div className="bg-vitrine-blue" />
+        </div>
+        {/* Center divider line */}
+        <div
+          aria-hidden
+          className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2"
+          style={{ background: "linear-gradient(to bottom, transparent, oklch(0.78 0.14 85 / 0.5), transparent)" }}
+        />
+
+        <div className="relative mx-auto max-w-7xl text-center">
           <span className="reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold">
             Edição 2026
           </span>
-          <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep">
+          <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-foreground">
             Uniforme Dito e Feito
           </h2>
-          <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-muted-foreground">
+          <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-foreground/70">
             Alta costura esportiva
           </p>
 
-          {/* Slot for the scroll-arriving crest */}
-          <div className="reveal mx-auto mt-12 h-32 w-32 md:h-40 md:w-40 opacity-100">
-            <img src={crest} alt="Escudo Dito e Feito" className="h-full w-full" />
-          </div>
+          {/* Spacer for scroll-pinned crest */}
+          <div className="h-32 md:h-40" aria-hidden />
 
-          <div className="relative mt-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 items-end">
+          <div className="relative mt-16 grid grid-cols-2 gap-4 items-end">
             <div className="reveal group relative">
               <div
                 aria-hidden
                 className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.5 0.2 305 / 0.25)" }}
+                style={{ background: "oklch(0.7 0.22 305 / 0.35)" }}
               />
               <img
                 src={jerseyPurple}
@@ -183,15 +206,15 @@ export default function Landing() {
                 loading="lazy"
                 className="mx-auto w-full max-w-md animate-float drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Goleiro · Roxo</p>
-              <p className="text-sm text-muted-foreground uppercase tracking-[0.3em]">Manto #1</p>
+              <p className="mt-4 font-display text-2xl text-primary-foreground tracking-wide">Goleiro · Roxo</p>
+              <p className="text-sm text-primary-foreground/70 uppercase tracking-[0.3em]">Manto #1</p>
             </div>
 
             <div className="reveal group relative md:mt-12">
               <div
                 aria-hidden
                 className="absolute inset-0 -z-10 mx-auto h-[80%] w-[80%] rounded-full blur-3xl"
-                style={{ background: "oklch(0.4 0.18 264 / 0.3)" }}
+                style={{ background: "oklch(0.55 0.2 264 / 0.4)" }}
               />
               <img
                 src={jerseyBlue}
@@ -201,13 +224,13 @@ export default function Landing() {
                 loading="lazy"
                 className="mx-auto w-full max-w-md animate-float-rev drop-shadow-2xl transition-transform duration-700 group-hover:scale-[1.04]"
               />
-              <p className="mt-4 font-display text-2xl text-primary-deep tracking-wide">Linha · Azul</p>
-              <p className="text-sm text-muted-foreground uppercase tracking-[0.3em]">Manto #10</p>
+              <p className="mt-4 font-display text-2xl text-primary-foreground tracking-wide">Linha · Azul</p>
+              <p className="text-sm text-primary-foreground/70 uppercase tracking-[0.3em]">Manto #10</p>
             </div>
           </div>
 
-          <p className="reveal mx-auto mt-20 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            Dois novos mantos com pegada <span className="text-primary-deep font-semibold">retrô e vintage</span>,
+          <p className="reveal mx-auto mt-20 max-w-2xl text-base md:text-lg text-primary-foreground/80 leading-relaxed">
+            Dois novos mantos com pegada <span className="text-gold font-semibold">retrô e vintage</span>,
             inspirados na estética dos <span className="text-gold font-semibold">anos 80 e 90</span>: tecido
             jacquard com grafismos sutis, gola V em ribana dourada e o escudo bordado em fio metálico. O roxo
             do goleiro homenageia os arqueiros lendários da década; o azul de linha resgata a alma do clube.
@@ -219,7 +242,7 @@ export default function Landing() {
       <section
         id="historia"
         ref={trophyRef}
-        className="relative bg-gradient-blue text-primary-foreground overflow-hidden py-32 px-6 md:px-12"
+        className="relative bg-gradient-night text-primary-foreground overflow-hidden py-32 px-6 md:px-12"
       >
         {/* Trophy fade-in on scroll */}
         <img
