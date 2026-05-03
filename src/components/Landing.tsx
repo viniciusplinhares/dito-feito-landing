@@ -42,8 +42,8 @@ export default function Landing() {
 
         // Interpolate position and scale gradually across the whole scroll
         const translateY = targetY * p;
-        const startScale = 1;
-        const endScale = 1.6; // grows to match jersey size between them
+        const startScale = 0.7;
+        const endScale = 1; // capped — matches jersey height, no gigantism
         const scale = startScale + (endScale - startScale) * p;
 
         setCrestStyle({
