@@ -252,7 +252,7 @@ export default function Landing() {
           src={trophy}
           alt=""
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[700px] transition-opacity duration-500"
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] max-w-[1200px] scale-125 transition-opacity duration-500"
           style={{ opacity: trophyOpacity, filter: "drop-shadow(0 30px 80px oklch(0.78 0.14 85 / 0.6))" }}
         />
 
@@ -408,6 +408,27 @@ function ChallengeSection() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
+            
+            // Pega os dados que o adversário digitou
+            const formData = new FormData(e.currentTarget);
+            const team = formData.get("team");
+            const date = formData.get("date");
+            const venue = formData.get("venue");
+
+            // Arruma a data para o padrão brasileiro (DD/MM/AAAA)
+            const [year, month, day] = String(date).split("-");
+            const dataFormatada = `${day}/${month}/${year}`;
+
+            // Monta a resenha que vai chegar no seu celular
+            const mensagem = `⚽ Fala, diretoria do Dito e Feito! Aqui é do time *${team}*. Queremos desafiar vocês para um jogo!\n\n📅 Data sugerida: ${dataFormatada}\n📍 Local: ${venue}\n\nBora marcar esse jogo e a resenha?`;
+
+            // SEU NÚMERO DE WHATSAPP
+            const numeroZap = "5548991100214";
+
+            // Abre o WhatsApp com a mensagem pronta
+            const linkZap = `https://wa.me/${numeroZap}?text=${encodeURIComponent(mensagem)}`;
+            window.open(linkZap, "_blank");
+
             setSent(true);
           }}
           className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6"
