@@ -32,17 +32,19 @@ export default function Landing() {
         const vh = window.innerHeight;
 
         const startTop = vh * 0.42;
-        // Target Y when crest should be at vitrine center on screen
+        // Target Y: crest sits exactly at the vitrine vertical center on screen
         const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
-        const lockedY = vitrineCenter - startTop;
+        const targetY = vitrineCenter - startTop;
 
-        // Progress across hero scroll-out
-        const p = Math.min(Math.max(window.scrollY / heroRect.height, 0), 1);
+        // Progress: 0 at page top, 1 when vitrine is centered in viewport
+        const totalDistance = hero.offsetHeight + vitrine.offsetHeight / 2 - vh / 2;
+        const p = Math.min(Math.max(window.scrollY / Math.max(totalDistance, 1), 0), 1);
 
-        // Move along the hero scroll, then snap to vitrine center once hero is out
-        const heroTravel = vh * 0.45 * p;
-        const translateY = p < 1 ? heroTravel : lockedY;
-        const scale = 1 - p * 0.55;
+        // Interpolate position and scale gradually across the whole scroll
+        const translateY = targetY * p;
+        const startScale = 1;
+        const endScale = 1.6; // grows to match jersey size between them
+        const scale = startScale + (endScale - startScale) * p;
 
         setCrestStyle({
           transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
