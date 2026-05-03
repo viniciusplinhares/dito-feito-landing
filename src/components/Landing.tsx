@@ -85,7 +85,7 @@ export default function Landing() {
         className="pointer-events-none fixed left-1/2 top-[42vh] z-40 h-[min(40vw,260px)] w-[min(40vw,260px)] -translate-x-1/2 will-change-transform animate-pulse-gold"
         style={crestStyle}
       >
-        <img src={crest} alt="" className="w-full h-auto select-none" draggable={false} />
+        <img src={crest} alt="" className="h-full w-full object-contain select-none" draggable={false} />
       </div>
 
       {/* ============== HERO ============== */}
