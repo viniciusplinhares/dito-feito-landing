@@ -31,33 +31,19 @@ export default function Landing() {
         const vitrineRect = vitrine.getBoundingClientRect();
         const vh = window.innerHeight;
 
-        // Crest starts centered in hero (~42vh from top), needs to land at vitrine center
+        // Fixed crest container sits at top:42vh. Target = vitrine vertical center on screen.
         const startTop = vh * 0.42;
         const vitrineCenter = vitrineRect.top + vitrineRect.height / 2;
-        // Distance to travel: from current fixed position to vitrine center
         const targetY = vitrineCenter - startTop;
 
-        // Progress: 0 when hero fully visible, 1 when vitrine center reaches viewport center
-        const total = heroRect.height + vitrineRect.height / 2 - vh / 2;
-        const scrolled = Math.min(Math.max(window.scrollY, 0), total);
-        const p = total > 0 ? scrolled / total : 0;
+        // Progress 0..1 across the hero scroll-out window
+        const p = Math.min(Math.max(window.scrollY / heroRect.height, 0), 1);
+        const scale = 1 - p * 0.55;
 
-        // Once vitrine center has passed viewport center, lock crest there (scrolls with page)
-        if (vitrineCenter <= vh / 2) {
-          // crest should now sit pinned at vitrine center -> use absolute-like translate
-          const lockedY = vitrineCenter - startTop;
-          setCrestStyle({
-            transform: `translate3d(-50%, ${lockedY}px, 0) scale(0.5)`,
-            opacity: 1,
-          });
-        } else {
-          const translateY = p * targetY;
-          const scale = 1 - p * 0.5;
-          setCrestStyle({
-            transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
-            opacity: 1,
-          });
-        }
+        setCrestStyle({
+          transform: `translate3d(-50%, ${targetY}px, 0) scale(${scale})`,
+          opacity: 1,
+        });
       }
 
       const t = trophyRef.current;
