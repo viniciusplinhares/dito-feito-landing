@@ -32,25 +32,26 @@ export default function Landing() {
         const vh = window.innerHeight;
 
         const startTop = vh * 0.42;
-        // Anchor: vertical center of the jerseys row (between the two shirts)
-        const anchorCenter = jerseysRect.top + jerseysRect.height / 2;
-        const targetY = anchorCenter - startTop;
+        
+        // Posição absoluta final do escudo no documento (centro exato das camisas)
+        const endDocY = jerseysRect.top + window.scrollY + (jerseysRect.height / 2) - 160;
 
-        // Progress: reach max (p=1) exactly when jerseys row is centered in viewport
-        const jerseysDocTop = anchorCenter + window.scrollY - jerseysRect.height / 2;
-        const totalDistance = jerseysDocTop + jerseysRect.height / 2 - vh / 2;
-        const p = Math.min(Math.max(window.scrollY / Math.max(totalDistance, 1), 0), 1);
+        // Distância total de scroll até as camisas ficarem no centro da tela
+        const maxScroll = endDocY - (vh / 2);
+        const p = Math.min(Math.max(window.scrollY / Math.max(maxScroll, 1), 0), 1);
 
-        // CLAMP: while interpolating, ease from 0→targetY. Once aligned (p=1),
-        // stay glued to the jerseys row center (targetY tracks it live via getBoundingClientRect).
-        const translateY = p < 1 ? targetY * p : targetY;
+        // A mágica: interpolar em linha reta, sem deixar ele ultrapassar e bater no texto
+        const currentDocY = startTop + (endDocY - startTop) * p;
+        
+        // Aplica a descida e ancora permanentemente o escudo entre as camisas
+        const translateY = currentDocY - window.scrollY - startTop;
 
         const startScale = 0.7;
         const endScale = 1;
         const scale = startScale + (endScale - startScale) * p;
 
         setCrestStyle({
-          transform: `translate3d(-50%, ${translateY}px, 0) scale(${scale})`,
+          transform: `translate3d(calc(-50% + 135px), ${translateY}px, 0) scale(${scale})`,
           opacity: 1,
         });
       }
