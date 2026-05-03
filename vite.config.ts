@@ -7,7 +7,7 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  base: '/dito-feito-landing/', // O nome EXATO do seu repositório no GitHub
+  base: '/', // O nome EXATO do seu repositório no GitHub
   plugins: [
     // ... seus plugins (react, tanstack, etc)
   ],
