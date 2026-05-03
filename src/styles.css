@@ -120,6 +120,15 @@
   .bg-gradient-blue {
     background: var(--gradient-blue);
   }
+  .bg-gradient-night {
+    background: var(--gradient-night);
+  }
+  .bg-vitrine-purple {
+    background: var(--gradient-vitrine-purple);
+  }
+  .bg-vitrine-blue {
+    background: var(--gradient-vitrine-blue);
+  }
   .text-gradient-gold {
     background: var(--gradient-gold);
     -webkit-background-clip: text;
