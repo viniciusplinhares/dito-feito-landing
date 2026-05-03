@@ -89,12 +89,27 @@ export default function Landing() {
       {/* ============== HERO ============== */}
       <section
         ref={heroRef}
-        className="relative min-h-screen w-full overflow-hidden bg-gradient-hero text-primary-foreground"
+        className="relative min-h-screen w-full overflow-hidden text-primary-foreground"
       >
-        {/* Texture */}
+        {/* Background photo */}
         <div
           aria-hidden
-          className="absolute inset-0 opacity-[0.07]"
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${heroBg})` }}
+        />
+        {/* Dark overlay for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, oklch(0.1 0.06 265 / 0.78) 0%, oklch(0.05 0.03 265 / 0.92) 70%, oklch(0.03 0.02 265 / 0.96) 100%)",
+          }}
+        />
+        {/* Subtle dot texture */}
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage:
               "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
@@ -103,7 +118,7 @@ export default function Landing() {
         />
         <div
           aria-hidden
-          className="absolute -top-1/3 right-0 h-[120vh] w-[120vh] rounded-full opacity-30 blur-3xl"
+          className="absolute -top-1/3 right-0 h-[120vh] w-[120vh] rounded-full opacity-20 blur-3xl"
           style={{ background: "var(--gradient-gold)" }}
         />
 
