@@ -9,8 +9,31 @@ import celebration from "@/assets/celebration.jpg";
 import heroBg from "@/assets/hero-bg.png";
 import { useReveal } from "@/hooks/use-reveal";
 
+// 1. Imports do WordPress
+import { fetchPagina } from "@/utils/fetchPagina";
+import { parseContent } from "@/utils/parseContent";
+
+// 2. Criação do Tipo de Conteúdo
+type Conteudo = ReturnType<typeof parseContent>;
+
 export default function Landing() {
   useReveal();
+
+  // 3. Estado que vai guardar os textos vindos do WordPress
+  const [conteudo, setConteudo] = useState<Conteudo | null>(null);
+
+  // 4. A função que vai no WordPress buscar a página
+  useEffect(() => {
+    // Atenção: "pagina-1" é o exemplo. Coloque o slug real do WordPress da AutoJun depois.
+    fetchPagina("pagina-1")
+      .then((pagina) => {
+        const elementos = parseContent(pagina.content.rendered);
+        setConteudo(elementos);
+      })
+      .catch(() => {
+        console.warn("Não foi possível buscar o conteúdo do WordPress.");
+      });
+  }, []);
 
   // Scroll-driven crest transform (Hero -> Vitrine)
   const heroRef = useRef<HTMLDivElement>(null);
@@ -143,12 +166,12 @@ export default function Landing() {
           </span>
 
           <h1 className="font-display text-[18vw] md:text-[11rem] leading-[0.85] tracking-tight">
-            <span className="block">Dito</span>
-            <span className="block text-gradient-gold italic">e Feito</span>
+            <span className="block">{conteudo?.titulos[0]?.textContent}</span>
+            <span className="block text-gradient-gold italic">{conteudo?.titulos[1]?.textContent}</span>
           </h1>
 
           <p className="mt-8 text-lg md:text-2xl font-light tracking-[0.4em] uppercase text-primary-foreground/85">
-            Futebol e Resenha
+            {conteudo?.paragrafos[0]?.textContent}
           </p>
 
           {/* Asymmetric "Desde 2010" */}
@@ -178,7 +201,7 @@ export default function Landing() {
               Edição 2026
             </span>
             <h2 className="reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep">
-              Uniforme Dito e Feito
+              {conteudo?.titulos[2]?.textContent}
             </h2>
             <p className="reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-deep/60">
               Alta costura esportiva
@@ -262,8 +285,8 @@ export default function Landing() {
               Capítulo I — Glórias
             </span>
             <h2 className="reveal mt-4 font-display text-5xl md:text-7xl">
-              História, <span className="text-gradient-gold italic">Glórias</span> e Redenção
-            </h2>
+              {conteudo?.titulos[3]?.textContent}
+          </h2>
           </div>
 
           {/* Bloco A — Olimpíadas */}
