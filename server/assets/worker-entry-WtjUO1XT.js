@@ -16672,7 +16672,7 @@ function getResponse() {
 }
 var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 async function getStartManifest(matchedRoutes) {
-  const { tsrStartManifest } = await import("./_tanstack-start-manifest_v-DqLn8nu9.js");
+  const { tsrStartManifest } = await import("./_tanstack-start-manifest_v-DF-QsEG8.js");
   const startManifest = tsrStartManifest();
   const rootRoute = startManifest.routes[rootRouteId] = startManifest.routes[rootRouteId] || {};
   rootRoute.assets = rootRoute.assets || [];
@@ -17274,7 +17274,7 @@ var baseManifestPromise;
 var cachedFinalManifestPromise;
 async function loadEntries() {
   const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-    import("./router-CvZbeBgJ.js"),
+    import("./router-BQOsRRse.js"),
     import("./start-HYkvq4Ni.js"),
     import("./__23tanstack-start-plugin-adapters-Cwee5PKy.js")
   ]);
@@ -17303,8 +17303,8 @@ async function resolveManifest(matchedRoutes, transformFn, cache) {
   }
   return computeFinalManifest();
 }
-var ROUTER_BASEPATH = "dito-feito-landing";
-var SERVER_FN_BASE = "/dito-feito-landing/_serverFn/";
+var ROUTER_BASEPATH = "/";
+var SERVER_FN_BASE = "/_serverFn/";
 var IS_PRERENDERING = process.env.TSS_PRERENDERING === "true";
 var IS_SHELL_ENV = process.env.TSS_SHELL === "true";
 var ERR_NO_RESPONSE = "Internal Server Error";
@@ -17586,13 +17586,13 @@ async function handleServerRoutes({ getRouter, request, url, executeRouter, cont
     pathname
   })).response;
 }
-var fetch = createStartHandler(defaultStreamHandler);
+var fetch$1 = createStartHandler(defaultStreamHandler);
 function createServerEntry(entry) {
   return { async fetch(...args) {
     return await entry.fetch(...args);
   } };
 }
-var server_default = createServerEntry({ fetch });
+var server_default = createServerEntry({ fetch: fetch$1 });
 const workerEntry = server_default ?? {};
 export {
   workerEntry as $,

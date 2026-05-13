@@ -1,4 +1,4 @@
-import { r as reactExports, T as jsxRuntimeExports } from "./worker-entry-Chop9R11.js";
+import { r as reactExports, T as jsxRuntimeExports } from "./worker-entry-WtjUO1XT.js";
 import "node:events";
 import "node:async_hooks";
 import "node:stream/web";
@@ -81,13 +81,13 @@ const createLucideIcon = (iconName, iconNode) => {
 };
 const __iconNode = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
 const ChevronDown = createLucideIcon("chevron-down", __iconNode);
-const crest = "/dito-feito-landing/assets/crest-main-A_Veb9ZH.png";
-const jerseyPurple = "/dito-feito-landing/assets/jersey-purple-DQeREgBa.png";
-const jerseyBlue = "/dito-feito-landing/assets/jersey-blue-lF3MPsL9.png";
-const trophy = "/dito-feito-landing/assets/trophy-C7GlT6wK.png";
-const rivalCrest = "/dito-feito-landing/assets/crest-rival-BfYccAfd.png";
-const celebration = "/dito-feito-landing/assets/celebration-C8Kz32Y2.jpg";
-const heroBg = "/dito-feito-landing/assets/hero-bg-BhtLbLYT.png";
+const crest = "/assets/crest-main-A_Veb9ZH.png";
+const jerseyPurple = "/assets/jersey-purple-DQeREgBa.png";
+const jerseyBlue = "/assets/jersey-blue-lF3MPsL9.png";
+const trophy = "/assets/trophy-C7GlT6wK.png";
+const rivalCrest = "/assets/crest-rival-BfYccAfd.png";
+const celebration = "/assets/celebration-C8Kz32Y2.jpg";
+const heroBg = "/assets/hero-bg-BhtLbLYT.png";
 function useReveal() {
   reactExports.useEffect(() => {
     const els = document.querySelectorAll(".reveal");
@@ -106,8 +106,34 @@ function useReveal() {
     return () => io.disconnect();
   }, []);
 }
+async function fetchPagina(slug) {
+  const res = await fetch(
+    `https://traine.autojun.com.br/wp-json/wp/v2/pages?slug=${slug}&_embed`
+  );
+  const data = await res.json();
+  return data[0];
+}
+function parseContent(htmlString) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  return {
+    titulos: Array.from(doc.querySelectorAll("h1, h2, h3, h4")),
+    paragrafos: Array.from(doc.querySelectorAll("p")),
+    imagens: Array.from(doc.querySelectorAll("img")),
+    listas: Array.from(doc.querySelectorAll("ul, ol"))
+  };
+}
 function Landing() {
   useReveal();
+  const [conteudo, setConteudo] = reactExports.useState(null);
+  reactExports.useEffect(() => {
+    fetchPagina("pagina-1").then((pagina) => {
+      const elementos = parseContent(pagina.content.rendered);
+      setConteudo(elementos);
+    }).catch(() => {
+      console.warn("Não foi possível buscar o conteúdo do WordPress.");
+    });
+  }, []);
   const heroRef = reactExports.useRef(null);
   const vitrineRef = reactExports.useRef(null);
   const jerseysRowRef = reactExports.useRef(null);
@@ -224,10 +250,10 @@ function Landing() {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10 mx-auto flex min-h-[calc(100vh-100px)] max-w-7xl flex-col items-center justify-center px-6 text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "mb-6 text-xs font-semibold uppercase tracking-[0.5em] text-gold/90", children: "Futebol Amador · Tradição" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("h1", { className: "font-display text-[18vw] md:text-[11rem] leading-[0.85] tracking-tight", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", children: "Dito" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block text-gradient-gold italic", children: "e Feito" })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block", children: conteudo?.titulos[0]?.textContent }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "block text-gradient-gold italic", children: conteudo?.titulos[1]?.textContent })
             ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-8 text-lg md:text-2xl font-light tracking-[0.4em] uppercase text-primary-foreground/85", children: "Futebol e Resenha" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-8 text-lg md:text-2xl font-light tracking-[0.4em] uppercase text-primary-foreground/85", children: conteudo?.paragrafos[0]?.textContent }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "pointer-events-none absolute right-6 md:right-16 top-1/2 -translate-y-1/2 rotate-90 origin-right text-gold/80 text-xs md:text-sm uppercase tracking-[0.6em] font-medium", children: "— Desde 2010" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-10 h-[42vh] w-full", "aria-hidden": true })
           ] }),
@@ -244,7 +270,7 @@ function Landing() {
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mx-auto flex max-w-6xl flex-col items-center text-center", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-full", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold", children: "Edição 2026" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep", children: "Uniforme Dito e Feito" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "reveal mt-4 font-display text-5xl md:text-7xl text-primary-deep", children: conteudo?.titulos[2]?.textContent }),
             /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "reveal mt-3 text-sm uppercase tracking-[0.35em] text-primary-deep/60", children: "Alta costura esportiva" })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: jerseysRowRef, className: "mt-20 flex w-full items-center justify-center gap-12 md:gap-24", children: [
@@ -330,11 +356,7 @@ function Landing() {
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative mx-auto max-w-6xl", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-center", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "reveal text-xs font-semibold uppercase tracking-[0.5em] text-gold", children: "Capítulo I — Glórias" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "reveal mt-4 font-display text-5xl md:text-7xl", children: [
-                "História, ",
-                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gradient-gold italic", children: "Glórias" }),
-                " e Redenção"
-              ] })
+              /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "reveal mt-4 font-display text-5xl md:text-7xl", children: conteudo?.titulos[3]?.textContent })
             ] }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("article", { className: "reveal mt-28 grid md:grid-cols-12 gap-8 items-start", children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "md:col-span-3", children: [
